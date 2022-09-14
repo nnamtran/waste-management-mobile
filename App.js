@@ -1,12 +1,31 @@
+import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import Onboarding from './onboarding/OnBoardingScreen';
+import HomeScreen from './onboarding/HomeScreen';
+import { useFonts } from 'expo-font';
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+const App= () => {
+  const [fontsLoaded] = useFonts({
+    Figtree: require('./assets/fonts/Figtree-Black.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen name="onboarding" component={Onboarding}/>
+        <Stack.Screen name="homeScreen" component={HomeScreen}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
@@ -18,3 +37,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default App;
